@@ -1,21 +1,23 @@
 import sys
 import sqlite3
 from PyQt5.QtWidgets import QApplication, QDialog, QTableWidgetItem, QWidget
-from PyQt5 import uic
 from PyQt5.QtCore import pyqtSignal
+from UI.mainUI import Ui_Widget
+from UI.addEditCoffeeForm import Ui_addEditCoffeeForm
 
 
 class Coffee(QWidget):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)
+        self.ui = Ui_Widget()
+        self.ui.setupUi(self)
         self.load_data()
 
         self.addButton.clicked.connect(self.add_record)
         self.coffeeDB.cellDoubleClicked.connect(self.edit_record)
 
     def load_data(self):
-        conn = sqlite3.connect('coffee.sqlite')
+        conn = sqlite3.connect('data/coffee.sqlite')
         cur = conn.cursor()
         cur.execute("""SELECT * FROM coffee""")
         rows = cur.fetchall()
@@ -46,10 +48,11 @@ class CoffeeForm(QDialog):
 
     def __init__(self, id=None):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.ui = Ui_addEditCoffeeForm()
+        self.ui.setupUi(self)
 
         self.id = id
-        self.conn = sqlite3.connect('coffee.sqlite')
+        self.conn = sqlite3.connect('data/coffee.sqlite')
         self.cur = self.conn.cursor()
 
         if self.id:
