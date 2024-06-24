@@ -6,11 +6,10 @@ from UI.mainUI import Ui_Widget
 from UI.addEditCoffeeForm import Ui_addEditCoffeeForm
 
 
-class Coffee(QWidget):
+class Coffee(QWidget, Ui_Widget):
     def __init__(self):
         super().__init__()
-        self.ui = Ui_Widget()
-        self.ui.setupUi(self)
+        self.setupUi(self)
         self.load_data()
 
         self.addButton.clicked.connect(self.add_record)
@@ -43,13 +42,12 @@ class Coffee(QWidget):
         self.addEditCoffeeForm.show()
 
 
-class CoffeeForm(QDialog):
+class CoffeeForm(QDialog, Ui_addEditCoffeeForm):
     record_saved = pyqtSignal()
 
     def __init__(self, id=None):
         super().__init__()
-        self.ui = Ui_addEditCoffeeForm()
-        self.ui.setupUi(self)
+        self.setupUi(self)
 
         self.id = id
         self.conn = sqlite3.connect('data/coffee.sqlite')
